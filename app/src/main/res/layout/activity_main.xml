@@ -28,7 +28,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:abb_tabAnimation="slide"
         app:abb_tabAnimationSelected="slide"
-        app:abb_indicatorLocation="top"
+        app:abb_indicatorLocation="bottom"
         app:abb_indicatorAnimation="slide"
         app:abb_animationInterpolator="@android:anim/overshoot_interpolator" />
 

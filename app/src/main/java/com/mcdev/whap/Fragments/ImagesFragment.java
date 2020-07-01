@@ -1,10 +1,8 @@
 package com.mcdev.whap.Fragments;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,28 +10,20 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.mcdev.whap.Adapters.ImageViewAdapter;
 import com.mcdev.whap.Models.StatusModel;
 import com.mcdev.whap.R;
 import com.mcdev.whap.Utils.MyConstants;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
 
 public class ImagesFragment extends Fragment {
@@ -131,66 +121,6 @@ public class ImagesFragment extends Fragment {
         }
     }
 
-    private Bitmap getThumbnail(StatusModel statusModel) {
-
-        if (statusModel.isVideo()) {
-            return ThumbnailUtils.createVideoThumbnail(statusModel.getFile().getAbsolutePath(),
-                    MediaStore.Video.Thumbnails.MICRO_KIND);
-        } else {
-            return ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(statusModel.getFile().getAbsolutePath()),
-                    MyConstants.THUMBSIZE,
-                    MyConstants.THUMBSIZE);
-        }
-    }
-
-
-    /*download whatsApp statuses*/
-    public void downloadImage(StatusModel statusModel) throws IOException {
-
-        if (!MyConstants.getSavedStatusesDir(requireContext()).exists()) {
-            MyConstants.getSavedStatusesDir(requireContext()).mkdirs();
-        }
-
-        //creating the file
-        File destinationFile = new File(MyConstants.getSavedStatusesDir(requireContext()) + File.separator + statusModel.getTitle());
-        //if user tries to save the same file twice, the old one will be deleted
-        if (destinationFile.exists()) {
-            destinationFile.delete();
-        }
-
-        //copying file from whatsApp directory to our directory
-        copyFile(statusModel.getFile(), destinationFile);
-
-        /*refreshing the gallery*/
-        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        intent.setData(Uri.fromFile(destinationFile));
-        Objects.requireNonNull(getActivity()).sendBroadcast(intent);
-
-    }
-
-    private void copyFile(File file, File destinationFile) throws IOException {
-        //checking if destination file's parent exits
-        if (!Objects.requireNonNull(destinationFile.getParentFile()).exists()) {
-            destinationFile.getParentFile().mkdirs();
-        }
-
-        /*checking if destination file exists*/
-        if (!destinationFile.exists()) {
-            destinationFile.createNewFile();
-        }
-
-        FileChannel source = new FileInputStream(file).getChannel();
-        FileChannel destination = new FileOutputStream(destinationFile).getChannel();
-        destination.transferFrom(source, 0, source.size());     //start copying
-
-        /*close channels*/
-        source.close();
-        destination.close();
-
-        if (!source.isOpen() && !destination.isOpen()) {
-            Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     private void init(View view) {
         imagesRecyclerView = view.findViewById(R.id.images_recyclerview);
