@@ -3,13 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.ImagesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <!--Recycler view-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/images_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Images" />
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@android:color/white"/>
+
 
 </FrameLayout>
