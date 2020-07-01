@@ -43,7 +43,12 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.Vide
     public void onBindViewHolder(@NonNull final VideoViewHolder holder, int position) {
         final StatusModel statusModel = videoList.get(position);
         if (statusModel.isVideo()) {
+            //set video duration visible
+            holder.videoDuration.setVisibility(View.VISIBLE);
+
             MyMethods.getThumbnailFromVideoWithGlide(context, statusModel.getFile().getAbsolutePath(),holder.imageView);
+            /*setting video duration text*/
+            holder.videoDuration.setText(MyMethods.getVideoLength(context, statusModel.getFile()));
         }
 
         /*download button onClick*/
@@ -68,10 +73,12 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.Vide
     public class VideoViewHolder extends RecyclerView.ViewHolder{
         ImageView imageView;
         Button downloadBtn;
+        Button videoDuration;
         public VideoViewHolder(@NonNull View itemView) {
             super(itemView);
             downloadBtn = itemView.findViewById(R.id.ibSaveToGallery);
             imageView = itemView.findViewById(R.id.ivThumbnail);
+            videoDuration = itemView.findViewById(R.id.video_duration);
         }
     }
 }

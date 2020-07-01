@@ -32,6 +32,25 @@
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:background="@drawable/rounded_corners_view"/>
+
+<!--            <ImageView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:src="@drawable/ic_videos"-->
+<!--                android:scaleType="centerInside"-->
+<!--                android:padding="100dp"/>-->
+
+            <Button
+                android:id="@+id/video_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:drawableStart="@drawable/ic_round_play_arrow_24"
+                android:layout_alignParentEnd="true"
+                android:background="@android:color/transparent"
+                android:layout_margin="10dp"
+                android:visibility="gone"/>
         </RelativeLayout>
 
     </RelativeLayout>

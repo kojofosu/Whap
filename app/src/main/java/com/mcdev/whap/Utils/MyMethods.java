@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -93,5 +95,19 @@ public class MyMethods {
                 .load(URI)
                 .apply(options)
                 .into(imageView);
+    }
+
+    public static String getVideoLength(Context context, File videoFile) {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+//use one of overloaded setDataSource() functions to set your data source
+        retriever.setDataSource(context, Uri.fromFile(videoFile));
+        String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+        long timeInMillisec = Long.parseLong(time );
+        long secs = timeInMillisec / 1000;
+        String duration = secs + " secs";
+
+        retriever.release();
+
+        return duration;
     }
 }
