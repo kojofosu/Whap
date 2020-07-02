@@ -3,12 +3,23 @@ package com.mcdev.whap.Fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mcdev.whap.Adapters.ImageViewAdapter;
+import com.mcdev.whap.Adapters.LibraryViewAdapter;
+import com.mcdev.whap.Models.StatusModel;
 import com.mcdev.whap.R;
+import com.mcdev.whap.Utils.MyConstants;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +27,10 @@ import com.mcdev.whap.R;
  * create an instance of this fragment.
  */
 public class LibraryFragment extends Fragment {
+    private String TAG = this.getClass().getSimpleName();
+    private RecyclerView libraryRecyclerView;
+    ArrayList<StatusModel> libraryModelArrayList;
+    LibraryViewAdapter libraryViewAdapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -63,7 +78,51 @@ public class LibraryFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_library, container, false);
 
+        //init
+        init(view);
+
+        //init library arrayList
+        libraryModelArrayList = new ArrayList<>();
+
+        //init library recycler view
+        libraryRecyclerView.setHasFixedSize(true);
+        libraryRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        //get statuses
+        getStatus();
         return view;
 
+    }
+
+    private void getStatus() {
+        Log.d(TAG, "getStatus: method called");
+        if (MyConstants.getSavedStatusesDir(requireContext()).exists()) {
+            Log.d(TAG, "getStatus: Whap status directory located.");
+            File[] statusFiles = MyConstants.getSavedStatusesDir(requireContext()).listFiles();
+
+            /*check if the status files is not empty*/
+            if (statusFiles != null && statusFiles.length > 0) {
+                Log.d(TAG, "getStatus: statuses are not null");
+                Arrays.sort(statusFiles);
+
+                /*list all types in to recycler view*/
+                for (final File statusFile : statusFiles) {
+                    StatusModel statusModel = new StatusModel(statusFile, statusFile.getName(), statusFile.getAbsolutePath());
+
+                    /*checking to exclude ".nomedia"*/
+                    if (!statusModel.getTitle().equals(MyConstants.NOMEDIA)) {
+                        libraryModelArrayList.add(statusModel);
+                    }
+                }
+                /*pass to adapter*/
+                libraryViewAdapter = new LibraryViewAdapter(libraryModelArrayList, this.getContext(), LibraryFragment.this);
+                libraryRecyclerView.setAdapter(libraryViewAdapter);
+                libraryViewAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    private void init(View view) {
+        libraryRecyclerView = view.findViewById(R.id.library_recyclerview);
     }
 }

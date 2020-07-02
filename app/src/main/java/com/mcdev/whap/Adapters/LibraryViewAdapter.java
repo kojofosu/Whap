@@ -1,7 +1,6 @@
 package com.mcdev.whap.Adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,37 +10,41 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mcdev.whap.Fragments.VideosFragment;
+import com.mcdev.whap.Fragments.ImagesFragment;
+import com.mcdev.whap.Fragments.LibraryFragment;
 import com.mcdev.whap.Models.StatusModel;
 import com.mcdev.whap.R;
 import com.mcdev.whap.Utils.MyMethods;
+import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.VideoViewHolder> {
+public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.LibraryViewHolder> {
     private final String TAG = this.getClass().getSimpleName();
-    private final List<StatusModel> videoList;
+    private final List<StatusModel> libraryList;
     Context context;
-    VideosFragment videosFragment;
+    LibraryFragment libraryFragment;
 
-    public VideoViewAdapter(List<StatusModel> videoList, Context context, VideosFragment videosFragment) {
-        this.videoList = videoList;
+    public LibraryViewAdapter(List<StatusModel> libraryList, Context context, LibraryFragment libraryFragment) {
+        this.libraryList = libraryList;
         this.context = context;
-        this.videosFragment = videosFragment;
+        this.libraryFragment = libraryFragment;
     }
 
     @NonNull
     @Override
-    public VideoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public LibraryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.items_status, parent, false);
-        return new VideoViewHolder(view);
+        return new LibraryViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final VideoViewHolder holder, int position) {
-        final StatusModel statusModel = videoList.get(position);
+    public void onBindViewHolder(@NonNull LibraryViewHolder holder, int position) {
+        //removing download button from items
+        holder.downloadBtn.setVisibility(View.GONE);
+
+        final StatusModel statusModel = libraryList.get(position);
         if (statusModel.isVideo()) {
             //set video duration visible
             holder.videoDuration.setVisibility(View.VISIBLE);
@@ -49,32 +52,25 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.Vide
             MyMethods.getThumbnailFromVideoWithGlide(context, statusModel.getFile().getAbsolutePath(),holder.imageView);
             /*setting video duration text*/
             holder.videoDuration.setText(MyMethods.getVideoLength(context, statusModel.getFile()));
+        }else{
+            //set video duration invisible
+            holder.videoDuration.setVisibility(View.GONE);
+            //set image to imageView with Picasso
+            Picasso.get().load(statusModel.getFile()).into(holder.imageView);
         }
-
-        /*download button onClick*/
-        holder.downloadBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    MyMethods.downloadFile(holder.imageView.getContext(), statusModel);
-                } catch (IOException e) {
-                    Log.e(TAG, "onClick: Error occurred", e);
-                }
-            }
-        });
 
     }
 
     @Override
     public int getItemCount() {
-        return videoList.size();
+        return libraryList.size();
     }
 
-    public static class VideoViewHolder extends RecyclerView.ViewHolder{
+    public static class LibraryViewHolder extends RecyclerView.ViewHolder{
         ImageView imageView;
         Button downloadBtn;
         Button videoDuration;
-        public VideoViewHolder(@NonNull View itemView) {
+        public LibraryViewHolder(@NonNull View itemView) {
             super(itemView);
             downloadBtn = itemView.findViewById(R.id.ibSaveToGallery);
             imageView = itemView.findViewById(R.id.ivThumbnail);

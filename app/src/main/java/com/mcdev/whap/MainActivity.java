@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.mcdev.whap.NonSwipeableViewpager.NonSwipeableViewpager;
 import com.mcdev.whap.NonSwipeableViewpager.ViewpagerAdapter;
+import com.mcdev.whap.Utils.MyMethods;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,9 +28,13 @@ public class MainActivity extends AppCompatActivity {
         //init
         init();
 
+        //make activity fullscreen
+        MyMethods.makeFullScreen(MainActivity.this);
+
         //animated bottom bar
         animatedBottomBarListeners();
 
+        //init view pager
         initViewpager();
     }
 

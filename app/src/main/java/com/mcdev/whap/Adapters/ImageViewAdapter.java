@@ -71,7 +71,7 @@ public class ImageViewAdapter extends RecyclerView.Adapter<ImageViewAdapter.Imag
         return imageList.size();
     }
 
-    public class ImageViewHolder extends RecyclerView.ViewHolder{
+    public static class ImageViewHolder extends RecyclerView.ViewHolder{
         ImageView imageView;
         Button downloadBtn;
         public ImageViewHolder(@NonNull View itemView) {
