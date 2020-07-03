@@ -56,7 +56,7 @@ public class ImageViewAdapter extends RecyclerView.Adapter<ImageViewAdapter.Imag
             @Override
             public void onClick(View view) {
                 try {
-                    MyMethods.downloadFile(holder.itemView.getContext(), statusModel);
+                    MyMethods.downloadFile(context, statusModel);
                     //downloadImage(statusModel);
                 } catch (IOException e) {
                     Log.e(TAG, "onClick: Error occurred", e);

@@ -17,7 +17,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.fede987.statusbaralert.StatusBarAlert;
+import com.fede987.statusbaralert.StatusBarAlertView;
 import com.mcdev.whap.Models.StatusModel;
+import com.mcdev.whap.R;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -74,7 +77,12 @@ public class MyMethods {
         destination.close();
 
         if (!source.isOpen() && !destination.isOpen()) {
-            Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+            StatusBarAlertView statusBarAlertView = new StatusBarAlert.Builder((Activity) context)
+                    .withText("Saved...")
+                    .showProgress(true)
+                    .withDuration(1000)
+                    .withAlertColor(R.color.green)
+                    .build();
         }
     }
 
