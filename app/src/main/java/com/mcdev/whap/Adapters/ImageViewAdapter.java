@@ -1,15 +1,12 @@
 package com.mcdev.whap.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -56,6 +53,7 @@ public class ImageViewAdapter extends RecyclerView.Adapter<ImageViewAdapter.Imag
             @Override
             public void onClick(View view) {
                 try {
+                    //downloading status
                     MyMethods.downloadFile(context, statusModel);
                     //downloadImage(statusModel);
                 } catch (IOException e) {

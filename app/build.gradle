@@ -40,4 +40,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     //status bar aler
     implementation 'com.fede987:status-bar-alert:1.0.2'
+    //dexter for permissions
+    implementation 'com.karumi:dexter:6.2.0'
 }
