@@ -1,6 +1,7 @@
 package com.mcdev.whap.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mcdev.whap.Fragments.ImagesFragment;
 import com.mcdev.whap.Models.StatusModel;
 import com.mcdev.whap.R;
+import com.mcdev.whap.Utils.MyConstants;
 import com.mcdev.whap.Utils.MyMethods;
+import com.mcdev.whap.ViewStatusActivity;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -60,6 +63,17 @@ public class ImageViewAdapter extends RecyclerView.Adapter<ImageViewAdapter.Imag
                 } catch (IOException e) {
                     Log.e(TAG, "onClick: Error occurred", e);
                 }
+            }
+        });
+
+        /*image view onclick*/
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ViewStatusActivity.class);
+                intent.putExtra(MyConstants.statusUrlKey, statusModel.getFile().toURI().toString());
+                intent.putExtra(MyConstants.statusTypeKey, MyConstants.statusTypeImage);
+                context.startActivity(intent);
             }
         });
 

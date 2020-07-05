@@ -1,6 +1,7 @@
 package com.mcdev.whap.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mcdev.whap.Fragments.LibraryFragment;
 import com.mcdev.whap.Models.StatusModel;
 import com.mcdev.whap.R;
+import com.mcdev.whap.Utils.MyConstants;
 import com.mcdev.whap.Utils.MyMethods;
+import com.mcdev.whap.ViewStatusActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -51,12 +54,31 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
             MyMethods.getThumbnailFromVideoWithGlide(context, statusModel.getFile().getAbsolutePath(),holder.imageView);
             /*setting video duration text*/
             holder.videoDuration.setText(MyMethods.getVideoLength(context, statusModel.getFile()));
+
         }else{
             //set video duration invisible
             holder.videoDuration.setVisibility(View.GONE);
             //set image to imageView with Picasso
             Picasso.get().load(statusModel.getFile()).into(holder.imageView);
         }
+
+        /*holder on click listener*/
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (statusModel.isVideo()) {
+                    Intent intent = new Intent(context, ViewStatusActivity.class);
+                    intent.putExtra(MyConstants.statusUrlKey, statusModel.getFile().toURI().toString());
+                    intent.putExtra(MyConstants.statusTypeKey, MyConstants.statusTypeVideo);
+                    context.startActivity(intent);
+                } else {
+                    Intent intent = new Intent(context, ViewStatusActivity.class);
+                    intent.putExtra(MyConstants.statusUrlKey, statusModel.getFile().toURI().toString());
+                    intent.putExtra(MyConstants.statusTypeKey, MyConstants.statusTypeImage);
+                    context.startActivity(intent);
+                }
+            }
+        });
 
     }
 
