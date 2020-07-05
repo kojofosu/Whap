@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.mcdev.whap.Adapters.ImageViewAdapter;
 import com.mcdev.whap.Adapters.LibraryViewAdapter;
 import com.mcdev.whap.Models.StatusModel;
 import com.mcdev.whap.R;

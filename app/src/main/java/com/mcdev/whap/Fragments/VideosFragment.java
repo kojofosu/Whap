@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.mcdev.whap.Adapters.VideoViewAdapter;
 import com.mcdev.whap.Models.StatusModel;
@@ -30,6 +31,7 @@ public class VideosFragment extends Fragment {
     private RecyclerView videosRecyclerView;
     ArrayList<StatusModel> videoModelArrayList;
     VideoViewAdapter videoViewAdapter;
+    TextView noVideosTV;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -115,11 +117,19 @@ public class VideosFragment extends Fragment {
                 videoViewAdapter = new VideoViewAdapter(videoModelArrayList, this.getContext(), VideosFragment.this);
                 videosRecyclerView.setAdapter(videoViewAdapter);
                 videoViewAdapter.notifyDataSetChanged();
+
+                /*checking if there are videos to display or not*/
+                if (videoModelArrayList.size() < 1) {
+                    noVideosTV.setVisibility(View.VISIBLE);
+                } else {
+                    noVideosTV.setVisibility(View.GONE);
+                }
             }
         }
     }
 
     private void init(View view) {
         videosRecyclerView = view.findViewById(R.id.videos_recyclerview);
+        noVideosTV = view.findViewById(R.id.no_videos_tv);
     }
 }

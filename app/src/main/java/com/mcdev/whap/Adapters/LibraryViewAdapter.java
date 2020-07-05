@@ -6,19 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mcdev.whap.Fragments.ImagesFragment;
 import com.mcdev.whap.Fragments.LibraryFragment;
 import com.mcdev.whap.Models.StatusModel;
 import com.mcdev.whap.R;
 import com.mcdev.whap.Utils.MyMethods;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.LibraryViewHolder> {
