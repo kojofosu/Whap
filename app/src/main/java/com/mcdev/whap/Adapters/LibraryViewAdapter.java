@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,6 +46,14 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
         holder.downloadBtn.setVisibility(View.GONE);
 
         final StatusModel statusModel = libraryList.get(position);
+
+        /*checking if user has any saved statuses*/
+        if (libraryList.size() < 1) {
+            holder.noSavedStatusesTV.setVisibility(View.VISIBLE);
+        }else{
+            holder.noSavedStatusesTV.setVisibility(View.GONE);
+        }
+
         if (statusModel.isVideo()) {
             //set video duration visible
             holder.videoDuration.setVisibility(View.VISIBLE);
@@ -70,11 +79,13 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
         ImageView imageView;
         Button downloadBtn;
         Button videoDuration;
+        TextView noSavedStatusesTV;
         public LibraryViewHolder(@NonNull View itemView) {
             super(itemView);
             downloadBtn = itemView.findViewById(R.id.ibSaveToGallery);
             imageView = itemView.findViewById(R.id.ivThumbnail);
             videoDuration = itemView.findViewById(R.id.video_duration);
+            noSavedStatusesTV = itemView.findViewById(R.id.no_saved_statuses_tv);
         }
     }
 }
