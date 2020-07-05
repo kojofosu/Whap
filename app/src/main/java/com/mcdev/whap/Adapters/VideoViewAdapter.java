@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,6 +43,14 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.Vide
     @Override
     public void onBindViewHolder(@NonNull final VideoViewHolder holder, int position) {
         final StatusModel statusModel = videoList.get(position);
+
+        /*check if there are videos to display or not*/
+        if (videoList.size() < 1) {
+            holder.noVideosTV.setVisibility(View.VISIBLE);
+        }else{
+            holder.noVideosTV.setVisibility(View.GONE);
+        }
+
         if (statusModel.isVideo()) {
             //set video duration visible
             holder.videoDuration.setVisibility(View.VISIBLE);
@@ -74,11 +83,13 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.Vide
         ImageView imageView;
         Button downloadBtn;
         Button videoDuration;
+        TextView noVideosTV;
         public VideoViewHolder(@NonNull View itemView) {
             super(itemView);
             downloadBtn = itemView.findViewById(R.id.ibSaveToGallery);
             imageView = itemView.findViewById(R.id.ivThumbnail);
             videoDuration = itemView.findViewById(R.id.video_duration);
+            noVideosTV = itemView.findViewById(R.id.no_videos_tv);
         }
     }
 }
