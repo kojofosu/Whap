@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.mcdev.whap.Adapters.ImageViewAdapter;
 import com.mcdev.whap.Models.StatusModel;
@@ -31,6 +32,7 @@ public class ImagesFragment extends Fragment {
     private RecyclerView imagesRecyclerView;
     ArrayList<StatusModel> imageModelArrayList;
     ImageViewAdapter imageViewAdapter;
+    TextView noImagesTV;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -117,6 +119,13 @@ public class ImagesFragment extends Fragment {
                 imageViewAdapter = new ImageViewAdapter(imageModelArrayList, this.getContext(), ImagesFragment.this);
                 imagesRecyclerView.setAdapter(imageViewAdapter);
                 imageViewAdapter.notifyDataSetChanged();
+
+                /*checking if there are images to display*/
+                if (imageModelArrayList.size() < 1) {
+                    noImagesTV.setVisibility(View.VISIBLE);
+                } else {
+                    noImagesTV.setVisibility(View.GONE);
+                }
             }
         }
     }
@@ -124,5 +133,6 @@ public class ImagesFragment extends Fragment {
 
     private void init(View view) {
         imagesRecyclerView = view.findViewById(R.id.images_recyclerview);
+        noImagesTV = view.findViewById(R.id.no_images_tv);
     }
 }

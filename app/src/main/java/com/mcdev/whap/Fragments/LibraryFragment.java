@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.mcdev.whap.Adapters.ImageViewAdapter;
 import com.mcdev.whap.Adapters.LibraryViewAdapter;
@@ -31,6 +32,7 @@ public class LibraryFragment extends Fragment {
     private RecyclerView libraryRecyclerView;
     ArrayList<StatusModel> libraryModelArrayList;
     LibraryViewAdapter libraryViewAdapter;
+    TextView noSavedStatusesTV;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -118,11 +120,19 @@ public class LibraryFragment extends Fragment {
                 libraryViewAdapter = new LibraryViewAdapter(libraryModelArrayList, this.getContext(), LibraryFragment.this);
                 libraryRecyclerView.setAdapter(libraryViewAdapter);
                 libraryViewAdapter.notifyDataSetChanged();
+
+                /*check if there are any saved statuses*/
+                if (libraryModelArrayList.size() < 1) {
+                    noSavedStatusesTV.setVisibility(View.VISIBLE);
+                } else {
+                    noSavedStatusesTV.setVisibility(View.GONE);
+                }
             }
         }
     }
 
     private void init(View view) {
         libraryRecyclerView = view.findViewById(R.id.library_recyclerview);
+        noSavedStatusesTV = view.findViewById(R.id.no_saved_statuses_tv);
     }
 }

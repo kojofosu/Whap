@@ -46,13 +46,6 @@ public class ImageViewAdapter extends RecyclerView.Adapter<ImageViewAdapter.Imag
 
         final StatusModel statusModel = imageList.get(position);
 
-        /*check if recycler view has items or not ..if it doesn't display a message to user*/
-        if (imageList.size() < 1) {
-            holder.noImagesTV.setVisibility(View.VISIBLE);
-        }else{
-            holder.noImagesTV.setVisibility(View.GONE);
-        }
-
         if (!statusModel.isVideo()) {
             Picasso.get().load(statusModel.getFile()).into(holder.imageView);
         }
@@ -81,12 +74,10 @@ public class ImageViewAdapter extends RecyclerView.Adapter<ImageViewAdapter.Imag
     public static class ImageViewHolder extends RecyclerView.ViewHolder{
         ImageView imageView;
         Button downloadBtn;
-        TextView noImagesTV;
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
             downloadBtn = itemView.findViewById(R.id.ibSaveToGallery);
             imageView = itemView.findViewById(R.id.ivThumbnail);
-            noImagesTV = itemView.findViewById(R.id.no_images_tv);
         }
     }
 
