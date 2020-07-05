@@ -7,6 +7,15 @@
     tools:context=".Fragments.ImagesFragment">
 
 
+    <TextView
+        android:id="@+id/no_images_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No images."
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="20sp"/>
+
     <!--Recycler view-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/images_recyclerview"
