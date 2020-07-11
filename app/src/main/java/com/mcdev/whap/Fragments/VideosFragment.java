@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ public class VideosFragment extends Fragment {
     ArrayList<StatusModel> videoModelArrayList;
     VideoViewAdapter videoViewAdapter;
     TextView noVideosTV;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -89,9 +91,23 @@ public class VideosFragment extends Fragment {
         videosRecyclerView.setHasFixedSize(true);
         videosRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
+        //swipe to refresh listeners
+        swipeToRefresh();
+
         //get status
         getStatus();
         return view;
+    }
+
+    private void swipeToRefresh() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                videoModelArrayList.clear();    //clearing arrayList before getting status to avoid status duplication
+                //get status
+                getStatus();
+            }
+        });
     }
 
     private void getStatus() {
@@ -124,6 +140,10 @@ public class VideosFragment extends Fragment {
                 } else {
                     noVideosTV.setVisibility(View.GONE);
                 }
+                //stop refresh layout if it is active
+                if (swipeRefreshLayout.isRefreshing()) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
             }
         }
     }
@@ -131,5 +151,6 @@ public class VideosFragment extends Fragment {
     private void init(View view) {
         videosRecyclerView = view.findViewById(R.id.videos_recyclerview);
         noVideosTV = view.findViewById(R.id.no_videos_tv);
+        swipeRefreshLayout = view.findViewById(R.id.videos_swipe_to_refresh_layout);
     }
 }

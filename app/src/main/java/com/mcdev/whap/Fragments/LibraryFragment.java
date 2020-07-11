@@ -140,16 +140,12 @@ public class LibraryFragment extends Fragment {
                 /*check if there are any saved statuses*/
                 if (libraryModelArrayList.size() < 1) {
                     noSavedStatusesTV.setVisibility(View.VISIBLE);
-                    //stop refresh layout if it is active
-                    if (swipeRefreshLayout.isRefreshing()) {
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
                 } else {
                     noSavedStatusesTV.setVisibility(View.GONE);
-                    //stop refresh layout if it is active
-                    if (swipeRefreshLayout.isRefreshing()) {
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
+                }
+                //stop refresh layout if it is active
+                if (swipeRefreshLayout.isRefreshing()) {
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             }
         }

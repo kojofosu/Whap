@@ -29,7 +29,7 @@ public class ImagesFragment extends Fragment {
     ArrayList<StatusModel> imageModelArrayList;
     ImageViewAdapter imageViewAdapter;
     TextView noImagesTV;
-    SwipeRefreshLayout swipeRefreshLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -134,16 +134,12 @@ public class ImagesFragment extends Fragment {
                 /*checking if there are images to display*/
                 if (imageModelArrayList.size() < 1) {
                     noImagesTV.setVisibility(View.VISIBLE);
-                    //stop refresh layout if it is active
-                    if (swipeRefreshLayout.isRefreshing()) {
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
                 } else {
                     noImagesTV.setVisibility(View.GONE);
-                    //stop refresh layout if it is active
-                    if (swipeRefreshLayout.isRefreshing()) {
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
+                }
+                //stop refresh layout if it is active
+                if (swipeRefreshLayout.isRefreshing()) {
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             }
         }
