@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ public class ImagesFragment extends Fragment {
     ArrayList<StatusModel> imageModelArrayList;
     ImageViewAdapter imageViewAdapter;
     TextView noImagesTV;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -85,9 +87,23 @@ public class ImagesFragment extends Fragment {
         imagesRecyclerView.setHasFixedSize(true);
         imagesRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
+        //swipe to refresh listeners
+        swipeToRefresh();
+
         //get Status
         getStatus();
         return view;
+    }
+
+    private void swipeToRefresh() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                imageModelArrayList.clear(); //clearing the arrayList first before getting the status to avoid duplication
+                //get status
+                getStatus();
+            }
+        });
     }
 
     private void getStatus() {
@@ -118,8 +134,16 @@ public class ImagesFragment extends Fragment {
                 /*checking if there are images to display*/
                 if (imageModelArrayList.size() < 1) {
                     noImagesTV.setVisibility(View.VISIBLE);
+                    //stop refresh layout if it is active
+                    if (swipeRefreshLayout.isRefreshing()) {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
                 } else {
                     noImagesTV.setVisibility(View.GONE);
+                    //stop refresh layout if it is active
+                    if (swipeRefreshLayout.isRefreshing()) {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
                 }
             }
         }
@@ -129,5 +153,6 @@ public class ImagesFragment extends Fragment {
     private void init(View view) {
         imagesRecyclerView = view.findViewById(R.id.images_recyclerview);
         noImagesTV = view.findViewById(R.id.no_images_tv);
+        swipeRefreshLayout = view.findViewById(R.id.images_swipe_to_refresh_layout);
     }
 }
