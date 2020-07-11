@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ public class LibraryFragment extends Fragment {
     ArrayList<StatusModel> libraryModelArrayList;
     LibraryViewAdapter libraryViewAdapter;
     TextView noSavedStatusesTV;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -89,9 +91,24 @@ public class LibraryFragment extends Fragment {
         libraryRecyclerView.setHasFixedSize(true);
         libraryRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
+        //swipe refresh listeners
+        swipeToRefresh();
+
         //get statuses
         getStatus();
         return view;
+
+    }
+
+    private void swipeToRefresh() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                libraryModelArrayList.clear();      //clearing the arrayList because it was duplicating the previously saved statuses
+                //get statuses
+                getStatus();
+            }
+        });
 
     }
 
@@ -123,8 +140,16 @@ public class LibraryFragment extends Fragment {
                 /*check if there are any saved statuses*/
                 if (libraryModelArrayList.size() < 1) {
                     noSavedStatusesTV.setVisibility(View.VISIBLE);
+                    //stop refresh layout if it is active
+                    if (swipeRefreshLayout.isRefreshing()) {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
                 } else {
                     noSavedStatusesTV.setVisibility(View.GONE);
+                    //stop refresh layout if it is active
+                    if (swipeRefreshLayout.isRefreshing()) {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
                 }
             }
         }
@@ -133,5 +158,6 @@ public class LibraryFragment extends Fragment {
     private void init(View view) {
         libraryRecyclerView = view.findViewById(R.id.library_recyclerview);
         noSavedStatusesTV = view.findViewById(R.id.no_saved_statuses_tv);
+        swipeRefreshLayout = view.findViewById(R.id.library_swipe_to_refresh_layout);
     }
 }
