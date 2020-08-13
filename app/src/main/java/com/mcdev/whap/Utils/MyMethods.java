@@ -15,8 +15,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.fede987.statusbaralert.StatusBarAlert;
-import com.fede987.statusbaralert.StatusBarAlertView;
+import com.google.android.material.snackbar.Snackbar;
 import com.mcdev.whap.Models.StatusModel;
 import com.mcdev.whap.R;
 
@@ -25,7 +24,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
-import java.util.List;
 import java.util.Objects;
 
 public class MyMethods {
@@ -76,12 +74,17 @@ public class MyMethods {
         destination.close();
 
         if (!source.isOpen() && !destination.isOpen()) {
-            StatusBarAlertView statusBarAlertView = new StatusBarAlert.Builder((Activity) context)
-                    .withText("Saved...")
-                    .showProgress(true)
-                    .withDuration(1000)
-                    .withAlertColor(R.color.green)
-                    .build();
+            //status bar alert
+//            StatusBarAlertView statusBarAlertView = new StatusBarAlert.Builder((Activity) context)
+//                    .withText("Saved...")
+//                    .showProgress(true)
+//                    .withDuration(1000)
+//                    .withAlertColor(R.color.green)
+//                    .build();
+
+            //snack bar
+            Snackbar.make(((Activity) context).findViewById(R.id.videos_swipe_to_refresh_layout),"Saved!" , Snackbar.LENGTH_SHORT).show();
+
         }
     }
 

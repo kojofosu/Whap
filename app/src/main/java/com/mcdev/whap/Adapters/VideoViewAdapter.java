@@ -1,5 +1,6 @@
 package com.mcdev.whap.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.mcdev.whap.Fragments.VideosFragment;
 import com.mcdev.whap.Models.StatusModel;
 import com.mcdev.whap.R;
