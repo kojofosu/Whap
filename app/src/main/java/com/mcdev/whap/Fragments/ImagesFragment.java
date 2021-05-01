@@ -18,6 +18,8 @@ import com.mcdev.whap.Models.StatusModel;
 import com.mcdev.whap.R;
 import com.mcdev.whap.Utils.MyConstants;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -146,7 +148,7 @@ public class ImagesFragment extends Fragment {
     }
 
 
-    private void init(View view) {
+    private void init(@NotNull View view) {
         imagesRecyclerView = view.findViewById(R.id.images_recyclerview);
         noImagesTV = view.findViewById(R.id.no_images_tv);
         swipeRefreshLayout = view.findViewById(R.id.images_swipe_to_refresh_layout);
