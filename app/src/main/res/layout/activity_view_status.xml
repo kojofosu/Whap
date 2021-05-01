@@ -18,7 +18,7 @@
         app:controller_layout_id="@layout/custom_playback_control"
         android:visibility="gone"/>
 
-    <ImageView
+    <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/view_meme_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.source.MediaSource;
@@ -32,7 +33,7 @@ public class ViewStatusActivity extends AppCompatActivity {
     private PlayerView playerView;
 
     SimpleExoPlayer player;
-    ImageView imageView;
+    PhotoView imageView;
     Uri uri;
     String memeType;
 
