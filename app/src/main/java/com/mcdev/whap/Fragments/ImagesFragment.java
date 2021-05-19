@@ -3,6 +3,7 @@ package com.mcdev.whap.Fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.mcdev.whap.Adapters.ImageViewAdapter;
 import com.mcdev.whap.Models.StatusModel;
 import com.mcdev.whap.R;
@@ -32,6 +34,8 @@ public class ImagesFragment extends Fragment {
     ImageViewAdapter imageViewAdapter;
     TextView noImagesTV;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private LottieAnimationView lottieAnimationView;
+    private int spanCount = 1;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -86,8 +90,25 @@ public class ImagesFragment extends Fragment {
         imageModelArrayList = new ArrayList<>();
 
         //init image recycler view
-        imagesRecyclerView.setHasFixedSize(true);
-        imagesRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        initRecyclerView(imagesRecyclerView, spanCount);
+
+        lottieAnimationView.setFrame(80);
+        lottieAnimationView.setOnClickListener(v -> {
+            if (spanCount == 1) {
+                spanCount = 2;
+                lottieAnimationView.setMinAndMaxFrame(80, 150);
+                lottieAnimationView.playAnimation();
+                imageViewAdapter.notifyDataSetChanged();
+                initRecyclerView(imagesRecyclerView, spanCount);
+            }else if (spanCount == 2) {
+                spanCount = 1;
+                lottieAnimationView.setMinAndMaxFrame(0, 80);
+                lottieAnimationView.playAnimation();
+                imageViewAdapter.notifyDataSetChanged();
+                initRecyclerView(imagesRecyclerView, spanCount);
+            }
+        });
+
 
         //swipe to refresh listeners
         swipeToRefresh();
@@ -95,6 +116,11 @@ public class ImagesFragment extends Fragment {
         //get Status
         getStatus();
         return view;
+    }
+
+    private void initRecyclerView(RecyclerView imagesRecyclerView, int spanCount) {
+        imagesRecyclerView.setHasFixedSize(true);
+        imagesRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), spanCount));
     }
 
     private void swipeToRefresh() {
@@ -152,5 +178,6 @@ public class ImagesFragment extends Fragment {
         imagesRecyclerView = view.findViewById(R.id.images_recyclerview);
         noImagesTV = view.findViewById(R.id.no_images_tv);
         swipeRefreshLayout = view.findViewById(R.id.images_swipe_to_refresh_layout);
+        lottieAnimationView = view.findViewById(R.id.animationView);
     }
 }
