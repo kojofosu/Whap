@@ -96,13 +96,13 @@ public class ImagesFragment extends Fragment {
         lottieAnimationView.setOnClickListener(v -> {
             if (spanCount == 1) {
                 spanCount = 2;
-                lottieAnimationView.setMinAndMaxFrame(80, 150);
+                lottieAnimationView.setMinAndMaxFrame(95, 150);
                 lottieAnimationView.playAnimation();
                 imageViewAdapter.notifyDataSetChanged();
                 initRecyclerView(imagesRecyclerView, spanCount);
             }else if (spanCount == 2) {
                 spanCount = 1;
-                lottieAnimationView.setMinAndMaxFrame(0, 80);
+                lottieAnimationView.setMinAndMaxFrame(15, 95);
                 lottieAnimationView.playAnimation();
                 imageViewAdapter.notifyDataSetChanged();
                 initRecyclerView(imagesRecyclerView, spanCount);
