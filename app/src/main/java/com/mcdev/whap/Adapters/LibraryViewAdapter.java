@@ -2,13 +2,17 @@ package com.mcdev.whap.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mcdev.whap.Fragments.LibraryFragment;
@@ -17,8 +21,10 @@ import com.mcdev.whap.R;
 import com.mcdev.whap.Utils.MyConstants;
 import com.mcdev.whap.Utils.MyMethods;
 import com.mcdev.whap.ViewStatusActivity;
+import com.squareup.picasso.BuildConfig;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.LibraryViewHolder> {
@@ -79,6 +85,34 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
                 }
             }
         });
+
+        /*image view onLongClick*/
+        holder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(context, v);
+                popupMenu.getMenuInflater().inflate(R.menu.item_long_click_menu, popupMenu.getMenu());
+                popupMenu.show();
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if (item.getItemId() == R.id.item_share) {
+                            if (statusModel.isVideo()) {
+                                //video
+                                MyMethods.shareFile(context, MyConstants.MIME_ALL_VIDEOS, statusModel);
+                            }else {
+                                //images
+                                MyMethods.shareFile(context, MyConstants.MIME_ALL_IMAGES, statusModel);
+                            }
+                        }
+                        return false;
+                    }
+                });
+                return true;
+            }
+        });
+
 
     }
 

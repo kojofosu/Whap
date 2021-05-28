@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -77,6 +79,33 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.Vide
                 intent.putExtra(MyConstants.statusUrlKey, statusModel.getFile().toURI().toString());
                 intent.putExtra(MyConstants.statusTypeKey, MyConstants.statusTypeVideo);
                 context.startActivity(intent);
+            }
+        });
+
+        /*image view onLongClick*/
+        holder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(context, v);
+                popupMenu.getMenuInflater().inflate(R.menu.item_long_click_menu, popupMenu.getMenu());
+                popupMenu.show();
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if (item.getItemId() == R.id.item_share) {
+                            if (statusModel.isVideo()) {
+                                //video
+                                MyMethods.shareFile(context, MyConstants.MIME_ALL_VIDEOS, statusModel);
+                            }else {
+                                //images
+                                MyMethods.shareFile(context, MyConstants.MIME_ALL_IMAGES, statusModel);
+                            }
+                        }
+                        return false;
+                    }
+                });
+                return true;
             }
         });
     }

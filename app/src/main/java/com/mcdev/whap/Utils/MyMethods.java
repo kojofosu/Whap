@@ -13,6 +13,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import androidx.core.content.FileProvider;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
@@ -122,6 +124,15 @@ public class MyMethods {
         retriever.release();
 
         return duration;
+    }
+
+    public static void shareFile(Context context, String mimeType, StatusModel statusModel) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType(mimeType);
+        File imageFile = new File(statusModel.getFile().getPath());
+        Uri uri = FileProvider.getUriForFile(context, "com.squareup.picasso.LibraryViewAdapter.provider", imageFile);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        context.startActivity(Intent.createChooser(shareIntent, "Share using"));
     }
 
     public static void makeFullScreen(Activity activity) {

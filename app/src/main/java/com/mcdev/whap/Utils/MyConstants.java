@@ -12,6 +12,8 @@ public class MyConstants {
     public static final String statusUrlKey = "statusUrl";
     public static final String statusTypeVideo = "video";
     public static final String statusTypeImage = "image";
+    public static final String MIME_ALL_IMAGES = "image/*";
+    public static final String MIME_ALL_VIDEOS = "video/*";
 
     public static File getWhatsAppStatusDir (Context context){
         return new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "WhatsApp/Media/.Statuses/");

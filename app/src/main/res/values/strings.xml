@@ -3,6 +3,7 @@
     <string name="images">Images</string>
     <string name="videos">Videos</string>
     <string name="library">Library</string>
+    <string name="share">Share</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="view_status_image_view">view status image view</string>
