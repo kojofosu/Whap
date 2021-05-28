@@ -3,6 +3,7 @@ package com.mcdev.whap.Fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.mcdev.whap.Adapters.LibraryViewAdapter;
 import com.mcdev.whap.Models.StatusModel;
 import com.mcdev.whap.R;
@@ -34,6 +36,8 @@ public class LibraryFragment extends Fragment {
     LibraryViewAdapter libraryViewAdapter;
     TextView noSavedStatusesTV;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private LottieAnimationView lottieAnimationView;
+    private int spanCount = 1;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -87,9 +91,25 @@ public class LibraryFragment extends Fragment {
         //init library arrayList
         libraryModelArrayList = new ArrayList<>();
 
-        //init library recycler view
-        libraryRecyclerView.setHasFixedSize(true);
-        libraryRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        //init image recycler view
+        initRecyclerView(libraryRecyclerView, spanCount);
+
+        lottieAnimationView.setFrame(95);
+        lottieAnimationView.setOnClickListener(v -> {
+            if (spanCount == 1) {
+                spanCount = 2;
+                lottieAnimationView.setMinAndMaxFrame(95, 150);
+                lottieAnimationView.playAnimation();
+                libraryViewAdapter.notifyDataSetChanged();
+                initRecyclerView(libraryRecyclerView, spanCount);
+            }else if (spanCount == 2) {
+                spanCount = 1;
+                lottieAnimationView.setMinAndMaxFrame(15, 95);
+                lottieAnimationView.playAnimation();
+                libraryViewAdapter.notifyDataSetChanged();
+                initRecyclerView(libraryRecyclerView, spanCount);
+            }
+        });
 
         //swipe refresh listeners
         swipeToRefresh();
@@ -151,9 +171,15 @@ public class LibraryFragment extends Fragment {
         }
     }
 
+    private void initRecyclerView(RecyclerView imagesRecyclerView, int spanCount) {
+        imagesRecyclerView.setHasFixedSize(true);
+        imagesRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), spanCount));
+    }
+
     private void init(View view) {
         libraryRecyclerView = view.findViewById(R.id.library_recyclerview);
         noSavedStatusesTV = view.findViewById(R.id.no_saved_statuses_tv);
         swipeRefreshLayout = view.findViewById(R.id.library_swipe_to_refresh_layout);
+        lottieAnimationView = view.findViewById(R.id.library_animationView);
     }
 }

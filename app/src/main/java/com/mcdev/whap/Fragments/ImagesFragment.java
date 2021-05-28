@@ -92,7 +92,7 @@ public class ImagesFragment extends Fragment {
         //init image recycler view
         initRecyclerView(imagesRecyclerView, spanCount);
 
-        lottieAnimationView.setFrame(80);
+        lottieAnimationView.setFrame(95);
         lottieAnimationView.setOnClickListener(v -> {
             if (spanCount == 1) {
                 spanCount = 2;
@@ -178,6 +178,6 @@ public class ImagesFragment extends Fragment {
         imagesRecyclerView = view.findViewById(R.id.images_recyclerview);
         noImagesTV = view.findViewById(R.id.no_images_tv);
         swipeRefreshLayout = view.findViewById(R.id.images_swipe_to_refresh_layout);
-        lottieAnimationView = view.findViewById(R.id.animationView);
+        lottieAnimationView = view.findViewById(R.id.images_animationView);
     }
 }
